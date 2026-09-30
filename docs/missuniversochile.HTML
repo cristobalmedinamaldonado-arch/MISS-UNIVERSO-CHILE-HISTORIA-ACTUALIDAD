@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>El Avance de Miss Universo Chile</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --gold: #d4af37;
+      --gold-light: #f5e6b8;
+      --gold-dark: #b8960c;
+      --black: #0a0a0a;
+      --dark: #111111;
+      --charcoal: #1c1c1c;
+      --cream: #f8f1e3;
+      --soft-white: #e8e0d5;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: var(--black);
+      color: var(--cream);
+      overflow: hidden;
+      height: 100vh;
+      line-height: 1.6;
+    }
+
+    /* Fondo decorativo sutil */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: 
+        radial-gradient(ellipse at 20% 20%, rgba(212, 175, 55, 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 80%, rgba(212, 175, 55, 0.06) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .presentation {
+      width: 100%;
+      height: 100vh;
+      position: relative;
+      z-index: 1;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.8s;
+      padding: 0;
+    }
+
+    .slide.active {
+      opacity: 1;
+      visibility: visible;
+      z-index: 10;
+    }
+
+    .slide-inner {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Lado de texto */
+    .text-panel {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 60px 70px 80px 80px;
+      background: linear-gradient(160deg, #0d0d0d 0%, #151515 100%);
+      position: relative;
+    }
+
+    .text-panel::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 1px;
+      height: 100%;
+      background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+      opacity: 0.4;
+    }
+
+    .section-label {
+      font-size: 0.75rem;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 500;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .section-label::before {
+      content: '';
+      width: 30px;
+      height: 1px;
+      background: var(--gold);
+    }
+
+    .year-badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--black);
+      background: linear-gradient(135deg, var(--gold-light), var(--gold));
+      padding: 6px 16px;
+      border-radius: 2px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      width: fit-content;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.1rem;
+      font-weight: 600;
+      line-height: 1.15;
+      color: var(--cream);
+      margin-bottom: 28px;
+      letter-spacing: -0.5px;
+    }
+
+    h1 span {
+      color: var(--gold);
+      font-style: italic;
+    }
+
+    h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.6rem;
+      font-weight: 600;
+      color: var(--cream);
+      margin-bottom: 8px;
+      line-height: 1.2;
+    }
+
+    .subtitle {
+      font-size: 1rem;
+      color: var(--gold);
+      font-weight: 400;
+      letter-spacing: 1px;
+      margin-bottom: 28px;
+      font-style: italic;
+    }
+
+    .content-text {
+      font-size: 1.05rem;
+      font-weight: 300;
+      color: var(--soft-white);
+      max-width: 520px;
+      margin-bottom: 24px;
+    }
+
+    .content-text strong {
+      color: var(--gold-light);
+      font-weight: 500;
+    }
+
+    ul {
+      list-style: none;
+      margin-bottom: 24px;
+    }
+
+    ul li {
+      position: relative;
+      padding-left: 22px;
+      margin-bottom: 14px;
+      font-size: 1.02rem;
+      font-weight: 300;
+      color: var(--soft-white);
+      line-height: 1.55;
+    }
+
+    ul li::before {
+      content: '✦';
+      position: absolute;
+      left: 0;
+      color: var(--gold);
+      font-size: 0.7rem;
+      top: 4px;
+    }
+
+    .highlight-box {
+      border-left: 2px solid var(--gold);
+      padding-left: 18px;
+      margin-top: 10px;
+      font-size: 0.98rem;
+      font-style: italic;
+      color: var(--gold-light);
+      opacity: 0.95;
+    }
+
+    /* Lado de imagen */
+    .image-panel {
+      position: relative;
+      background: #0a0a0a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .image-frame {
+      position: relative;
+      width: 85%;
+      height: 80%;
+      max-height: 620px;
+    }
+
+    .image-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 4px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
+    }
+
+    /* Marco dorado decorativo */
+    .image-frame::before {
+      content: '';
+      position: absolute;
+      inset: -12px;
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      border-radius: 6px;
+      pointer-events: none;
+    }
+
+    .image-frame::after {
+      content: '';
+      position: absolute;
+      inset: -6px;
+      border: 1px solid rgba(212, 175, 55, 0.15);
+      border-radius: 5px;
+      pointer-events: none;
+    }
+
+    /* Decoración de esquina */
+    .corner-ornament {
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      border: 1px solid var(--gold);
+      opacity: 0.5;
+    }
+
+    .corner-ornament.top-left {
+      top: -20px;
+      left: -20px;
+      border-right: none;
+      border-bottom: none;
+    }
+
+    .corner-ornament.bottom-right {
+      bottom: -20px;
+      right: -20px;
+      border-left: none;
+      border-top: none;
+    }
+
+    /* Navegación inferior elegante */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 70px;
+      background: linear-gradient(to top, rgba(0,0,0,0.85), transparent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 40px;
+      z-index: 100;
+      padding-bottom: 10px;
+    }
+
+    .nav-dots {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .nav-dots button {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      border: 1.5px solid var(--gold);
+      background: transparent;
+      cursor: pointer;
+      transition: all 0.35s ease;
+      padding: 0;
+    }
+
+    .nav-dots button.active {
+      background: var(--gold);
+      transform: scale(1.35);
+      box-shadow: 0 0 12px rgba(212, 175, 55, 0.5);
+    }
+
+    .nav-arrow {
+      background: transparent;
+      border: 1px solid rgba(212, 175, 55, 0.4);
+      color: var(--gold);
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      font-size: 1.3rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: serif;
+    }
+
+    .nav-arrow:hover {
+      background: var(--gold);
+      color: var(--black);
+      border-color: var(--gold);
+    }
+
+    .slide-counter {
+      position: fixed;
+      top: 28px;
+      right: 40px;
+      font-family: 'Playfair Display', serif;
+      font-size: 0.95rem;
+      color: rgba(245, 230, 184, 0.6);
+      letter-spacing: 2px;
+      z-index: 100;
+    }
+
+    .slide-counter span {
+      color: var(--gold);
+    }
+
+    /* Título superior sutil */
+    .top-brand {
+      position: fixed;
+      top: 28px;
+      left: 40px;
+      font-size: 0.7rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: rgba(212, 175, 55, 0.7);
+      z-index: 100;
+      font-weight: 500;
+    }
+
+    /* Responsive */
+    @media (max-width: 1000px) {
+      .slide-inner {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr;
+      }
+
+      .text-panel {
+        padding: 50px 40px 40px;
+        order: 2;
+      }
+
+      .image-panel {
+        min-height: 38vh;
+        order: 1;
+      }
+
+      .image-frame {
+        width: 70%;
+        height: 90%;
+      }
+
+      h1 { font-size: 2.3rem; }
+      h2 { font-size: 2rem; }
+
+      .text-panel::after {
+        display: none;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .text-panel {
+        padding: 30px 25px 60px;
+      }
+      h1 { font-size: 1.9rem; }
+      h2 { font-size: 1.7rem; }
+      .content-text, ul li {
+        font-size: 0.95rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="top-brand">Miss Universo Chile</div>
+  <div class="slide-counter"><span id="current">01</span> / 05</div>
+
+  <div class="presentation">
+
+    <!-- SLIDE 1 -->
+    <section class="slide active" data-slide="1">
+      <div class="slide-inner">
+        <div class="text-panel">
+          <div class="section-label">Introducción</div>
+          <h1>El legado de<br><span>Miss Universo</span></h1>
+          <p class="content-text">
+            Miss Universo es el certamen de belleza más prestigioso del planeta. Cada año, mujeres de más de 80 países compiten no solo por la corona, sino por representar valores de liderazgo, inteligencia y elegancia.
+          </p>
+          <ul>
+            <li>Selección nacional a través de Miss Universo Chile</li>
+            <li>Preliminares: entrevistas, traje de baño y de noche</li>
+            <li>Semifinales y final con preguntas en vivo</li>
+            <li>El jurado decide; el público puede impulsar a las semifinalistas</li>
+          </ul>
+          <div class="highlight-box">
+            Chile solo ha ganado una vez: Cecilia Bolocco en 1987. Desde 2023, el país vive su mejor momento en décadas.
+          </div>
+        </div>
+        <div class="image-panel">
+          <div class="image-frame">
+            <div class="corner-ornament top-left"></div>
+            <div class="corner-ornament bottom-right"></div>
+            <img src="images/missu1.jpg" alt="Miss Universo">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 2 -->
+    <section class="slide" data-slide="2">
+      <div class="slide-inner">
+        <div class="text-panel">
+          <div class="section-label">El renacer</div>
+          <div class="year-badge">2023</div>
+          <h2>Celeste Viel</h2>
+          <div class="subtitle">Comunidad Extranjera</div>
+          <p class="content-text">
+            Hija del animador Felipe Viel y de Paula Caballero (Miss Mundo Chile 1992). Nacida en Miami, representó a Chile con distinción y elegancia.
+          </p>
+          <ul>
+            <li>Coronada Miss Universo Chile el 13 de agosto de 2023</li>
+            <li>Alcanzó el <strong>Top 20</strong> en Miss Universo 2023 (El Salvador)</li>
+            <li>Primera chilena en clasificar desde 2004</li>
+            <li>Abrió el camino de una nueva era para Chile</li>
+          </ul>
+          <div class="highlight-box">
+            Su clasificación rompió casi 20 años de sequía y marcó el inicio del gran avance chileno.
+          </div>
+        </div>
+        <div class="image-panel">
+          <div class="image-frame">
+            <div class="corner-ornament top-left"></div>
+            <div class="corner-ornament bottom-right"></div>
+            <img src="images/missu2.jpg" alt="Celeste Viel">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 3 -->
+    <section class="slide" data-slide="3">
+      <div class="slide-inner">
+        <div class="text-panel">
+          <div class="section-label">Historia</div>
+          <div class="year-badge">2024</div>
+          <h2>Emilia Dides</h2>
+          <div class="subtitle">Vitacura · Cantante & Modelo</div>
+          <p class="content-text">
+            Conocida artísticamente como Emi D, Emilia combinó talento musical, carisma y una presencia escénica impecable.
+          </p>
+          <ul>
+            <li>Coronada Miss Universo Chile el 7 de julio de 2024</li>
+            <li>Logró el <strong>Top 12</strong> en Miss Universo 2024 (México)</li>
+            <li>Ganadora del <strong>People’s Choice Award</strong></li>
+            <li>Mejor resultado de Chile en más de 30 años</li>
+          </ul>
+          <div class="highlight-box">
+            Su participación consolidó a Chile como una potencia emergente en el certamen.
+          </div>
+        </div>
+        <div class="image-panel">
+          <div class="image-frame">
+            <div class="corner-ornament top-left"></div>
+            <div class="corner-ornament bottom-right"></div>
+            <img src="images/missu3.jpg" alt="Emilia Dides">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 4 -->
+    <section class="slide" data-slide="4">
+      <div class="slide-inner">
+        <div class="text-panel">
+          <div class="section-label">Consolidación</div>
+          <div class="year-badge">2025</div>
+          <h2>Inna Moll</h2>
+          <div class="subtitle">Vitacura · Actriz & Modelo</div>
+          <p class="content-text">
+            María Ignacia Moll Bilbao demostró que el avance de Chile no fue casualidad, sino el resultado de una nueva generación de talentos.
+          </p>
+          <ul>
+            <li>Coronada Miss Universo Chile el 1 de agosto de 2025</li>
+            <li>Representó a Chile en Miss Universo 2025 (Tailandia)</li>
+            <li>Clasificó al <strong>Top 12</strong>, igualando el logro del año anterior</li>
+            <li>Tres clasificaciones consecutivas (2023-2025)</li>
+          </ul>
+          <div class="highlight-box">
+            Con Inna, Chile confirmó su lugar entre las naciones más competitivas del concurso.
+          </div>
+        </div>
+        <div class="image-panel">
+          <div class="image-frame">
+            <div class="corner-ornament top-left"></div>
+            <div class="corner-ornament bottom-right"></div>
+            <img src="images/missu4.jpg" alt="Inna Moll">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 5 -->
+    <section class="slide" data-slide="5">
+      <div class="slide-inner">
+        <div class="text-panel">
+          <div class="section-label">El futuro</div>
+          <div class="year-badge">2026 · Aún no compite</div>
+          <h2>Dominga López</h2>
+          <div class="subtitle">Viña del Mar · Periodista</div>
+          <p class="content-text">
+            A sus 24 años, Dominga López asume el legado de las últimas tres reinas con la misión más ambiciosa: traer la segunda corona a Chile.
+          </p>
+          <ul>
+            <li>Coronada Miss Universo Chile 2026 en agosto</li>
+            <li>Recibió la corona de manos de Inna Moll</li>
+            <li>Destacó por su oratoria y capacidad comunicacional</li>
+            <li>Competirá en Miss Universo 2026 (Puerto Rico)</li>
+          </ul>
+          <div class="highlight-box">
+            “Es hora de traer la segunda corona al país, que ya es hora de que llegue.”
+          </div>
+        </div>
+        <div class="image-panel">
+          <div class="image-frame">
+            <div class="corner-ornament top-left"></div>
+            <div class="corner-ornament bottom-right"></div>
+            <img src="images/missu5.jpg" alt="Dominga López">
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Navegación inferior -->
+  <div class="bottom-nav">
+    <button class="nav-arrow" onclick="changeSlide(-1)" aria-label="Anterior">‹</button>
+    <div class="nav-dots" id="nav-dots"></div>
+    <button class="nav-arrow" onclick="changeSlide(1)" aria-label="Siguiente">›</button>
+  </div>
+
+  <script>
+    let currentSlide = 1;
+    const totalSlides = 5;
+
+    const navDots = document.getElementById('nav-dots');
+    for (let i = 1; i <= totalSlides; i++) {
+      const btn = document.createElement('button');
+      btn.setAttribute('aria-label', `Ir a diapositiva ${i}`);
+      btn.onclick = () => goToSlide(i);
+      if (i === 1) btn.classList.add('active');
+      navDots.appendChild(btn);
+    }
+
+    function updateSlide() {
+      document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+      document.querySelector(`[data-slide="${currentSlide}"]`).classList.add('active');
+      
+      document.getElementById('current').textContent = String(currentSlide).padStart(2, '0');
+      
+      document.querySelectorAll('.nav-dots button').forEach((btn, i) => {
+        btn.classList.toggle('active', i + 1 === currentSlide);
+      });
+    }
+
+    function changeSlide(dir) {
+      currentSlide += dir;
+      if (currentSlide < 1) currentSlide = totalSlides;
+      if (currentSlide > totalSlides) currentSlide = 1;
+      updateSlide();
+    }
+
+    function goToSlide(n) {
+      currentSlide = n;
+      updateSlide();
+    }
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'ArrowRight' || e.key === ' ') {
+        e.preventDefault();
+        changeSlide(1);
+      } else if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        changeSlide(-1);
+      }
+    });
+  </script>
+</body>
+</html>
